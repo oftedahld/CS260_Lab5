@@ -33,6 +33,17 @@ class ParseTree:
     def __init__(self, expression=""):
         """Initializes an empty parse tree"""
         root = ParseNode()
+        for i in range(0, len(expression)):
+            value = expression[i]
+            if value == " ":
+                continue #skip if space
+            if value.isAlpha() == True:
+                """If alpha character"""
+                value = value.upper() #Convert to upper case for consistency
+                operandNode = ParseNode(i)
+            if value == "+" or value == "-" or value == "*" or value == "/":
+                operatorNode = ParseNode(i)
+
 
 
         
