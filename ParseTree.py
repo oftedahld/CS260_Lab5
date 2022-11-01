@@ -32,18 +32,48 @@ class ParseNode:
 class ParseTree:
     def __init__(self, expression=""):
         """Initializes an empty parse tree"""
-        root = ParseNode()
-        for i in range(0, len(expression)):
-            value = expression[i]
-            if value == " ":
-                continue #skip if space
-            if value.isAlpha() == True:
-                """If alpha character"""
-                value = value.upper() #Convert to upper case for consistency
-                operandNode = ParseNode(i)
-            if value == "+" or value == "-" or value == "*" or value == "/":
-                operatorNode = ParseNode(i)
+        stack = []
+        for i in expression:
+            if i == "":
+                continue
+            elif i in ("+", "-", "*", "/"):
+                temp = ParseNode(i)
+                tempPopRight = stack.pop()
+                tempPopLeft = stack.pop()
+                temp.setRight(tempPopRight)
+                temp.setLeft(tempPopLeft)
+                stack.append(temp)
+            else:
+                temp = ParseNode(i)
+                stack.append(temp)
+        self.root = stack.pop()
 
+    def preOrder(self):
+        """return a string containing a prefix version of the expression. This must be a recursive method
+        pre-order visits the node, then the left subtree, then the right subtree"""
 
+    def inOrder(self):
+        """ return a string containing an infix version of the expression, remember to add parentheses. This must be a recursive method.
+        in-order visits the left subtree, then the node, then the right subtree
+        """
+    
+    def postOrder(self):
+        """return a string containing a postfix version of the expression. This must be a recursive method
+        post-order visits the left subtree, then the right subtree, then the node"""
 
-        
+            
+"""
+Look at each character in the string in order 
+• If a space 
+o do nothing 
+• If an operand 
+o create a new node for the operand 
+o push it on the stack 
+• If an operator 
+o create a new node for the operator 
+o pop the top of the stack and attach it on the right of the new node 
+o pop the top of the stack and attach it on the left of the new node 
+o push new node and its subtree on the stack 
+• If end of expression 
+o pop the top of the stack and save the node as root of the tree 
+"""            
